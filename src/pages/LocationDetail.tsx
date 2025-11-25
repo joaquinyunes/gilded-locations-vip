@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { MapPin, Clock, Phone, ArrowLeft, Sparkles, Users, Award, Package } from "lucide-react";
+import { MapPin, Clock, Phone, ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
+import { Navigation } from "@/components/Navigation";
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getLocationBySlug } from "@/data/locations";
@@ -9,11 +10,7 @@ import bowlaneInterior1 from "@/assets/bowlane-interior-1.jpg";
 import bowlaneInterior2 from "@/assets/bowlane-interior-2.jpg";
 import bowlaneInterior3 from "@/assets/bowlane-interior-3.jpg";
 import spitalfieldsInterior1 from "@/assets/spitalfields-interior-1.jpg";
-import spitalfieldsExterior from "@/assets/spitalfields-exterior.jpg";
 import mayfairInterior1 from "@/assets/mayfair-interior-1.jpg";
-import mayfairExterior from "@/assets/mayfair-exterior.jpg";
-import teamPhoto from "@/assets/team-photo.jpg";
-import productsDisplay from "@/assets/products-display.jpg";
 
 const LocationDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,13 +30,13 @@ const LocationDetail = () => {
   const getLocationImages = () => {
     switch (location.id) {
       case "bow-lane":
-        return [bowlaneInterior1, bowlaneInterior2, bowlaneInterior3, teamPhoto, productsDisplay];
+        return [bowlaneInterior1, bowlaneInterior2, bowlaneInterior3];
       case "spitalfields":
-        return [spitalfieldsInterior1, spitalfieldsExterior, bowlaneInterior2, teamPhoto, productsDisplay];
+        return [spitalfieldsInterior1, bowlaneInterior2, bowlaneInterior3];
       case "mayfair":
-        return [mayfairInterior1, mayfairExterior, bowlaneInterior3, teamPhoto, productsDisplay];
+        return [mayfairInterior1, bowlaneInterior2, bowlaneInterior3];
       default:
-        return [bowlaneInterior1, bowlaneInterior2, bowlaneInterior3, teamPhoto, productsDisplay];
+        return [bowlaneInterior1, bowlaneInterior2, bowlaneInterior3];
     }
   };
 
@@ -47,6 +44,7 @@ const LocationDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       {/* Hero Section with Image */}
       <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
         <motion.div
@@ -155,99 +153,23 @@ const LocationDetail = () => {
           >
             GALERÍA
           </motion.h2>
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {images.slice(0, 4).map((image, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`relative group overflow-hidden rounded-lg border-4 border-accent/30 shadow-gold hover:shadow-gold-intense transition-all duration-500 ${
-                  index === 0 ? 'md:col-span-2 md:row-span-2' : ''
-                }`}
-                whileHover={{ scale: 1.02, rotate: index % 2 === 0 ? 1 : -1 }}
-              >
-                <img
-                  src={image}
-                  alt={`${location.name} interior ${index + 1}`}
-                  className={`w-full object-cover ${index === 0 ? 'h-full' : 'h-64'}`}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </motion.div>
-            ))}
-          </div>
-          {images.length > 4 && (
-            <div className="grid md:grid-cols-3 gap-4 mt-4">
-              {images.slice(4).map((image, index) => (
-                <motion.div
-                  key={index + 4}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: (index + 4) * 0.1 }}
-                  className="relative group overflow-hidden rounded-lg border-4 border-accent/30 shadow-gold hover:shadow-gold-intense transition-all duration-500"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <img
-                    src={image}
-                    alt={`${location.name} ambiente ${index + 5}`}
-                    className="w-full h-64 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 px-6 bg-card border-y border-accent/20">
-        <div className="container mx-auto max-w-6xl">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-center text-accent mb-16 tracking-[0.2em]"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            ¿POR QUÉ ELEGIRNOS?
-          </motion.h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Award className="w-12 h-12" />,
-                title: "Maestros Barberos",
-                description: "Años de experiencia y técnica tradicional perfeccionada"
-              },
-              {
-                icon: <Package className="w-12 h-12" />,
-                title: "Productos Premium",
-                description: "Solo utilizamos las mejores marcas y productos de alta gama"
-              },
-              {
-                icon: <Users className="w-12 h-12" />,
-                title: "Servicio Personalizado",
-                description: "Cada cliente recibe atención única y consultoría de estilo"
-              }
-            ].map((feature, index) => (
+          <div className="grid md:grid-cols-3 gap-6">
+            {images.map((image, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="text-center p-8 bg-background rounded-lg border-2 border-accent/30 hover:border-accent hover:shadow-gold transition-all duration-300"
+                className="relative group overflow-hidden rounded-lg border-4 border-accent/30 shadow-gold hover:shadow-gold-intense transition-all duration-500"
+                whileHover={{ scale: 1.05, rotate: index % 2 === 0 ? 2 : -2 }}
               >
-                <div className="text-accent mb-4 flex justify-center">
-                  {feature.icon}
-                </div>
-                <h3 className="text-2xl font-bold text-accent mb-3 tracking-wider">
-                  {feature.title}
-                </h3>
-                <p className="text-foreground/70 leading-relaxed">
-                  {feature.description}
-                </p>
+                <img
+                  src={image}
+                  alt={`${location.name} interior ${index + 1}`}
+                  className="w-full h-80 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </motion.div>
             ))}
           </div>

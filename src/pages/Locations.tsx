@@ -3,6 +3,7 @@ import { LocationWindow } from "@/components/LocationWindow";
 import { Chamber88Section } from "@/components/Chamber88Section";
 import { InteractiveMap } from "@/components/InteractiveMap";
 import { Footer } from "@/components/Footer";
+import { Navigation } from "@/components/Navigation";
 import { useEffect, useRef } from "react";
 import { getAllLocations } from "@/data/locations";
 import illustration1 from "@/assets/illustration-1.jpg";
@@ -29,6 +30,7 @@ const Locations = () => {
 
   return (
     <div className="min-h-screen bg-background" ref={ref}>
+      <Navigation />
       {/* Hero Header Section with Parallax */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-zinc-800 via-zinc-700 to-zinc-600">
         {/* Animated Background Pattern */}
