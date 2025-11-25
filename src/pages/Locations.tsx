@@ -3,46 +3,18 @@ import { LocationWindow } from "@/components/LocationWindow";
 import { Chamber88Section } from "@/components/Chamber88Section";
 import { InteractiveMap } from "@/components/InteractiveMap";
 import { Footer } from "@/components/Footer";
+import { Navigation } from "@/components/Navigation";
 import { useEffect, useRef } from "react";
+import { getAllLocations } from "@/data/locations";
 import illustration1 from "@/assets/illustration-1.jpg";
 import illustration2 from "@/assets/illustration-2.jpg";
 import illustration3 from "@/assets/illustration-3.jpg";
 import { Scissors, Crown } from "lucide-react";
 
-const locationsData = [
-  {
-    id: 1,
-    name: "BOW LANE",
-    postcode: "EC4M 9DL",
-    address: "47 Bow Lane, London, EC4M 9DL",
-    hours: "Lunes a Viernes: 9:00 - 20:00 | Sábado-Domingo: Cerrado",
-    phone: "020 8616 3708",
-    illustration: illustration1,
-    detailLink: "/locations/bow-lane",
-  },
-  {
-    id: 2,
-    name: "SPITALFIELDS",
-    postcode: "E1 7NE",
-    address: "4 Toynbee Street, London, E1 7NE",
-    hours: "Lunes a Sábado: 9:00 - 20:00 | Domingo: 10:00 - 18:00",
-    phone: "020 7247 1524",
-    illustration: illustration2,
-    detailLink: "/locations/spitalfields",
-  },
-  {
-    id: 3,
-    name: "MAYFAIR",
-    postcode: "W1J 7PD",
-    address: "5 Shepherd Market, London, W1J 7PD",
-    hours: "Todos los días: 10:00 - 18:00",
-    phone: "020 3602 2427",
-    illustration: illustration3,
-    detailLink: "/locations/mayfair",
-  },
-];
-
 const Locations = () => {
+  const locations = getAllLocations();
+  const illustrations = [illustration1, illustration2, illustration3];
+  
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -58,6 +30,7 @@ const Locations = () => {
 
   return (
     <div className="min-h-screen bg-background" ref={ref}>
+      <Navigation />
       {/* Hero Header Section with Parallax */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-zinc-800 via-zinc-700 to-zinc-600">
         {/* Animated Background Pattern */}
@@ -190,8 +163,18 @@ const Locations = () => {
 
           {/* Windows Grid */}
           <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
-            {locationsData.map((location, index) => (
-              <LocationWindow key={location.id} {...location} index={index} />
+            {locations.map((location, index) => (
+              <LocationWindow
+                key={location.id}
+                name={location.name}
+                postcode={location.postcode}
+                address={location.fullAddress}
+                hours={`${location.hours.weekdays} | ${location.hours.weekend}`}
+                phone={location.phone}
+                illustration={illustrations[index]}
+                detailLink={`/locations/${location.id}`}
+                index={index}
+              />
             ))}
           </div>
         </div>
